@@ -1,233 +1,215 @@
-# BNA Backend - Spring Boot Application
+# BNA Banking Client Management System
 
-A comprehensive Spring Boot backend for the BNA Banking Application, providing secure banking services including user management, transactions, loans, and administrative functions.
+A comprehensive banking client management system built with React.js, Material-UI, NestJS, and PostgreSQL.
 
-## Features
+## 🚀 Features
 
-- **User Authentication & Authorization**: JWT-based authentication with role-based access control
-- **User Management**: User registration, profile management, and verification
-- **Transaction Management**: Secure financial transactions, transfers, and transaction history
-- **Loan Management**: Loan applications, approvals, and payment processing
-- **Admin Dashboard**: Comprehensive administrative tools and system monitoring
-- **Security**: Spring Security with JWT tokens and CORS configuration
-- **Database**: H2 in-memory database with JPA/Hibernate
-- **API Documentation**: RESTful API endpoints with proper HTTP status codes
+### Client Portal
+- ✅ View account balance and transaction history
+- ✅ Real-time transaction notifications
+- ✅ Account statement downloads
+- ✅ Profile management
+- ✅ Secure authentication with JWT
+- ✅ Multiple account types (Savings, Checking, Business, Investment)
+- ✅ Transaction filtering and search
 
-## Technology Stack
+### Admin Dashboard
+- ✅ Manage all bank clients
+- ✅ View comprehensive analytics and insights
+- ✅ Monitor transaction patterns
+- ✅ User management and permissions
+- ✅ Financial reporting tools
+- ✅ Real-time dashboard statistics
+- ✅ User status management (Active, Inactive, Suspended)
 
-- **Java 17**
-- **Spring Boot 3.2.0**
-- **Spring Security**
-- **Spring Data JPA**
-- **H2 Database**
-- **JWT (JSON Web Tokens)**
-- **Lombok**
-- **Maven**
+## 🛠️ Tech Stack
 
-## Prerequisites
+- **Frontend**: React.js 18 with TypeScript
+- **UI Library**: Material-UI (MUI) v5
+- **Backend**: NestJS with TypeScript
+- **Database**: PostgreSQL with TypeORM
+- **Authentication**: JWT tokens with role-based access
+- **State Management**: React Context API
+- **HTTP Client**: Axios
+- **Routing**: React Router v6
 
-- Java 17 or higher
-- Maven 3.6 or higher
-- IDE (IntelliJ IDEA, Eclipse, or VS Code)
+## 📋 Prerequisites
 
-## Getting Started
+- Node.js (v18 or higher)
+- PostgreSQL (v13 or higher)
+- npm or yarn package manager
+
+## 🚀 Getting Started
 
 ### 1. Clone the Repository
-
 ```bash
 git clone <repository-url>
-cd backend
+cd bna-banking-system
 ```
 
-### 2. Build the Project
-
+### 2. Install Dependencies
 ```bash
-mvn clean install
+npm run install:all
 ```
 
-### 3. Run the Application
+### 3. Database Setup
+1. Create a PostgreSQL database named `bna_banking`
+2. Copy environment files:
+   ```bash
+   cp backend/.env.example backend/.env
+   cp frontend/.env.example frontend/.env
+   ```
 
+3. Update `backend/.env` with your database credentials:
+   ```env
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   DB_DATABASE=bna_banking
+   ```
+
+### 4. Start the Application
 ```bash
-mvn spring-boot:run
+npm run dev
 ```
 
-The application will start on `http://localhost:8080`
+The application will be available at:
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:3001/api
 
-### 4. Access H2 Database Console
+### 5. Default Admin Access
+- **Email**: admin@bna.com
+- **Password**: admin123
 
-- URL: `http://localhost:8080/h2-console`
-- JDBC URL: `jdbc:h2:mem:bnadb`
-- Username: `sa`
-- Password: `password`
+## 📁 Project Structure
 
-## API Endpoints
+```
+bna-banking-system/
+├── frontend/                 # React.js client application
+│   ├── src/
+│   │   ├── components/      # Reusable UI components
+│   │   ├── contexts/        # React contexts (Auth)
+│   │   ├── pages/          # Page components
+│   │   ├── services/       # API service functions
+│   │   └── App.tsx         # Main app component
+│   └── public/             # Static assets
+├── backend/                 # NestJS API server
+│   ├── src/
+│   │   ├── auth/           # Authentication module
+│   │   ├── clients/        # Client management module
+│   │   ├── admin/          # Admin management module
+│   │   ├── entities/       # Database entities
+│   │   └── config/         # Configuration files
+│   └── package.json
+└── README.md
+```
 
-### Authentication (`/api/auth`)
-- `POST /login` - User login
-- `POST /register` - User registration
-- `POST /init` - Initialize default users
-- `GET /health` - Health check
+## 🔌 API Documentation
 
-### User Management (`/api/user`)
-- `GET /profile` - Get current user profile
-- `PUT /profile` - Update user profile
-- `GET /{userId}` - Get user by ID (Admin only)
-- `GET /all` - Get all users (Admin only)
-- `GET /search` - Search users (Admin only)
+### Authentication Endpoints
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+- `GET /api/auth/profile` - Get current user profile
+- `POST /api/auth/refresh` - Refresh JWT token
 
-### Transactions (`/api/transactions`)
-- `GET /my` - Get user transactions
-- `GET /my/paginated` - Get paginated transactions
-- `POST /create` - Create new transaction
-- `GET /pending` - Get pending transactions (Admin only)
+### Client Endpoints
+- `GET /api/clients/profile` - Get client profile
+- `PUT /api/clients/profile` - Update client profile
+- `GET /api/clients/accounts` - Get client accounts
+- `GET /api/clients/accounts/summary` - Get account summary
+- `GET /api/clients/transactions` - Get transaction history
+- `GET /api/clients/transactions/summary` - Get transaction summary
+- `POST /api/clients/transactions` - Create new transaction
 
-### Loans (`/api/loans`)
-- `GET /my` - Get user loans
-- `POST /apply` - Apply for loan
-- `POST /{loanNumber}/approve` - Approve loan (Admin only)
-- `POST /{loanNumber}/reject` - Reject loan (Admin only)
+### Admin Endpoints
+- `GET /api/admin/dashboard/stats` - Get dashboard statistics
+- `GET /api/admin/users` - Get all users
+- `POST /api/admin/users` - Create new user
+- `PUT /api/admin/users/:id` - Update user
+- `DELETE /api/admin/users/:id` - Delete user
+- `GET /api/admin/analytics/transactions` - Get transaction analytics
+- `GET /api/admin/analytics/users` - Get user analytics
 
-### Admin (`/api/admin`)
-- `GET /dashboard` - Admin dashboard statistics
-- `GET /system/health` - System health check
-- `POST /users/{userId}/toggle-status` - Toggle user status
-
-## Default Users
-
-The application automatically creates default users on startup:
-
-### Admin User
-- Email: `admin@bna.com`
-- Password: `admin123`
-- Role: `ADMIN`
-
-### Regular User
-- Email: `user@bna.com`
-- Password: `user123`
-- Role: `USER`
-- Account Balance: $125,000
-
-## Database Schema
+## 🗄️ Database Schema
 
 ### Users Table
-- User information, authentication, and account details
-- Role-based access control (USER/ADMIN)
-- Account balance and verification status
+- User management with roles (Client, Admin)
+- Profile information and status tracking
+- Secure password hashing with bcrypt
+
+### Accounts Table
+- Multiple account types (Savings, Checking, Business, Investment)
+- Balance tracking and account status
+- Interest rate management
 
 ### Transactions Table
-- Financial transaction records
-- Transaction types: CREDIT, DEBIT, TRANSFER, WITHDRAWAL, DEPOSIT
-- Status tracking: PENDING, COMPLETED, FAILED, CANCELLED
+- Complete transaction history
+- Multiple transaction types (Deposit, Withdrawal, Transfer, Payment)
+- Transaction status tracking
+- Fee and reference management
 
-### Loans Table
-- Loan applications and management
-- Loan types: PERSONAL, BUSINESS, MORTGAGE, AUTO, EQUIPMENT, AGRICULTURAL
-- Status tracking: PENDING, APPROVED, REJECTED, ACTIVE, PAID_OFF, DEFAULTED
+## 🔐 Security Features
 
-## Security Features
+- JWT-based authentication
+- Role-based access control (RBAC)
+- Password hashing with bcrypt
+- Input validation and sanitization
+- CORS configuration
+- Protected routes
 
-- **JWT Authentication**: Secure token-based authentication
-- **Role-based Access Control**: Different permissions for users and admins
-- **Password Encryption**: BCrypt password hashing
-- **CORS Configuration**: Cross-origin resource sharing setup
-- **Input Validation**: Request validation and sanitization
+## 🎨 UI/UX Features
 
-## Configuration
+- Responsive Material-UI design
+- Dark/Light theme support
+- Real-time dashboard updates
+- Interactive data tables
+- Form validation
+- Loading states and error handling
+- Mobile-friendly interface
 
-### Application Properties
-- Server port: 8080
-- Database: H2 in-memory
-- JWT secret and expiration
-- CORS settings
-- Logging configuration
+## 🧪 Testing
 
-### Environment Variables
-- `JWT_SECRET`: Custom JWT secret key
-- `MAIL_USERNAME`: Email service username
-- `MAIL_PASSWORD`: Email service password
-
-## Development
-
-### Project Structure
-```
-src/main/java/com/bna/
-├── config/          # Configuration classes
-├── controller/      # REST controllers
-├── dto/            # Data transfer objects
-├── entity/         # JPA entities
-├── repository/     # Data access layer
-├── security/       # Security configuration
-└── service/        # Business logic services
-```
-
-### Adding New Features
-1. Create entity classes in `entity/` package
-2. Create repository interfaces in `repository/` package
-3. Implement business logic in `service/` package
-4. Create DTOs in `dto/` package
-5. Implement REST endpoints in `controller/` package
-6. Add security configurations if needed
-
-## Testing
-
-### Run Tests
 ```bash
-mvn test
+# Run backend tests
+cd backend
+npm run test
+
+# Run frontend tests
+cd frontend
+npm test
 ```
 
-### Test Coverage
-```bash
-mvn jacoco:report
-```
+## 📦 Production Deployment
 
-## Deployment
+1. Build the frontend:
+   ```bash
+   cd frontend
+   npm run build
+   ```
 
-### Build JAR
-```bash
-mvn clean package
-```
+2. Start the backend in production mode:
+   ```bash
+   cd backend
+   npm run start:prod
+   ```
 
-### Run JAR
-```bash
-java -jar target/bna-backend-0.0.1-SNAPSHOT.jar
-```
-
-### Docker (Optional)
-```bash
-docker build -t bna-backend .
-docker run -p 8080:8080 bna-backend
-```
-
-## Monitoring and Logging
-
-- Application logs with configurable levels
-- Health check endpoints
-- Performance monitoring capabilities
-- Error tracking and reporting
-
-## Troubleshooting
-
-### Common Issues
-1. **Port already in use**: Change server.port in application.yml
-2. **Database connection issues**: Check H2 console access
-3. **JWT token issues**: Verify JWT secret configuration
-4. **CORS issues**: Check CORS configuration for frontend integration
-
-### Logs
-Check application logs for detailed error information and debugging.
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+## 🆘 Support
 
-For support and questions, please contact the development team or create an issue in the repository.
+For support, email support@bna.com or create an issue in the repository.
+
+---
+
+**BNA Banking System** - Secure, Modern, and User-Friendly Banking Solution 🏦
